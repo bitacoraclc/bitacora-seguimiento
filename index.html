@@ -187,58 +187,55 @@
       check();
     });
 
-    // ✅ CARGA DE ESTUDIANTES CON CACHÉ OFFLINE + TIMESTAMP
+    // ✅ CARGA DE ESTUDIANTES CON CACHÉ OFFLINE (versión simple y segura)
     cursoSel.addEventListener('change', async () => {
       if(!cursoSel.value) return;
       toast("🔄 Cargando...", "warn");
       btnAdd.disabled = true;
       
       const clave = `lista_${cursoSel.value}`;
-      const ahora = Date.now();
-      const cacheLocal = JSON.parse(localStorage.getItem(clave) || 'null');
       
       try {
-        // Si hay conexión y no tenemos caché o está viejo (>24h), recargar desde servidor
-        if(navigator.onLine && (!cacheLocal || !cacheLocal.timestamp || (ahora - cacheLocal.timestamp > 24*60*60*1000))) {
+        // Si no hay conexión, intentar usar caché local primero
+        if(!navigator.onLine) {
+          const cacheGuardado = localStorage.getItem(clave);
+          if(cacheGuardado) {
+            cache[cursoSel.value] = JSON.parse(cacheGuardado);
+            btnAdd.disabled = false;
+            toast("📴 Lista offline", "warn");
+            return;
+          }
+        }
+        
+        // Intentar cargar desde servidor (si hay conexión o no hay caché)
+        if(!cache[cursoSel.value]) {
           const r = await fetch(`${WEBHOOK}?action=getEstudiantes&curso=${encodeURIComponent(cursoSel.value)}`);
           const d = await r.json();
           if(d.success && d.estudiantes?.length) {
-            // Limpiar nombres y guardar en caché local + memoria
+            // Limpiar nombres
             const estudiantesLimpios = d.estudiantes.map(e => ({
               id: e.id,
               nombre: limpiarNombre(e.nombre)
             }));
             cache[cursoSel.value] = estudiantesLimpios;
-            localStorage.setItem(clave, JSON.stringify({
-              estudiantes: estudiantesLimpios,
-              timestamp: ahora
-            }));
-            btnAdd.disabled = false;
-            toast("✅ Lista actualizada", "ok");
+            // Guardar en localStorage para offline
+            localStorage.setItem(clave, JSON.stringify(estudiantesLimpios));
           } else throw 1;
-        } 
-        // Si hay caché local válido, usarlo (con o sin conexión)
-        else if(cacheLocal?.estudiantes) {
-          cache[cursoSel.value] = cacheLocal.estudiantes;
-          btnAdd.disabled = false;
-          toast(cacheLocal.timestamp && (ahora - cacheLocal.timestamp < 24*60*60*1000) ? "✅ Lista cargada" : "⚠️ Lista guardada (offline)", cacheLocal.timestamp && (ahora - cacheLocal.timestamp < 24*60*60*1000) ? "ok" : "warn");
-        } 
-        // Fallback genérico si no hay nada
-        else {
-          cache[cursoSel.value] = Array.from({length:30},(_,i)=>({id:i+1, nombre:`Estudiante ${i+1}`}));
-          btnAdd.disabled = false;
-          toast("⚠️ Modo offline - lista genérica", "warn");
         }
+        btnAdd.disabled = false;
+        toast("✅ Lista lista", "ok");
       } catch {
-        // Fallback a caché local si existe, sino genérico
-        if(cacheLocal?.estudiantes) {
-          cache[cursoSel.value] = cacheLocal.estudiantes;
+        // Fallback: usar caché local si existe, sino genérico
+        const cacheGuardado = localStorage.getItem(clave);
+        if(cacheGuardado) {
+          cache[cursoSel.value] = JSON.parse(cacheGuardado);
+          btnAdd.disabled = false;
           toast("⚠️ Usando lista guardada", "warn");
         } else {
           cache[cursoSel.value] = Array.from({length:30},(_,i)=>({id:i+1, nombre:`Estudiante ${i+1}`}));
-          toast("⚠️ Lista genérica", "warn");
+          btnAdd.disabled = false;
+          toast("⚠️ Modo offline", "warn");
         }
-        btnAdd.disabled = false;
       }
     });
 
