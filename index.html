@@ -135,15 +135,10 @@
     const mSearch = document.getElementById('mSearch');
     const mList = document.getElementById('mList');
 
-    // ✅ FUNCIÓN ROBUSTA DE LIMPIEZA DE NOMBRES
+    // ✅ NUEVO: Función para limpiar nombres (quita + y decodifica)
     function limpiarNombre(nombre) {
       if (!nombre) return '';
-      // 1. Reemplazar + por espacio (formato URL encoding)
-      let limpio = nombre.replace(/\+/g, ' ');
-      // 2. Decodificar caracteres URL (%20, %C3%A1, etc.)
-      try { limpio = decodeURIComponent(limpio); } catch(e) {}
-      // 3. Normalizar espacios múltiples y trim
-      return limpio.replace(/\s+/g, ' ').trim();
+      return decodeURIComponent(nombre.replace(/\+/g, ' ')).trim();
     }
 
     function bloquearCurso(bloquear) {
@@ -186,14 +181,11 @@
           const r = await fetch(`${WEBHOOK}?action=getEstudiantes&curso=${encodeURIComponent(cursoSel.value)}`);
           const d = await r.json();
           if(d.success && d.estudiantes?.length) {
-            // ✅ DEBUG: Ver qué llega realmente
-            console.log('📦 Datos crudos del servidor:', d.estudiantes[0]);
-            // ✅ APLICAR LIMPIEZA ROBUSTA
+            // ✅ APLICAR LIMPIEZA DE NOMBRES AL RECIBIR DATOS
             cache[cursoSel.value] = d.estudiantes.map(e => ({
               id: e.id,
               nombre: limpiarNombre(e.nombre)
             }));
-            console.log('✨ Nombre después de limpiar:', cache[cursoSel.value][0].nombre);
           } else throw 1;
         }
         btnAdd.disabled = false;
@@ -319,7 +311,7 @@
           const res = await fetch(WEBHOOK, {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({  JSON.stringify(cola[i]) })
+            body: new URLSearchParams({ data: JSON.stringify(cola[i]) })
           });
           if(res.ok) okIndices.push(i);
         } catch(e) {}
