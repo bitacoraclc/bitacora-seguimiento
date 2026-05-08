@@ -19,55 +19,39 @@
       height: 100dvh; display: flex; flex-direction: column; overflow: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: var(--sp-md) var(--sp-lg); background: var(--panel); border-bottom: 1px solid rgba(71,85,105,0.5); flex-shrink: 0; }
     .top-bar h1 { font-size: var(--font-sm); font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
     .credit { font-size: 7.5px; color: rgba(226,232,240,0.15); font-style: italic; user-select: none; }
-
     .header { padding: var(--sp-md) var(--sp-lg); background: var(--panel); border-bottom: 1px solid rgba(71,85,105,0.5); display: flex; gap: var(--sp-md); flex-shrink: 0; }
     select, input { width: 100%; height: 38px; padding: 0 10px; background: var(--input); color: var(--txt); border: 1px solid rgba(71,85,105,0.6); border-radius: var(--sp-md); font-size: var(--font-sm); appearance: none; background-image: url("image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
     select::-ms-expand { display: none; }
     option { background: var(--panel); color: var(--txt); font-size: var(--font-sm); }
-    
-    /* ✅ CURSO: más grande y bold */
     #curso { flex: 0 0 38%; min-width: 105px; font-size: var(--font-md); font-weight: 700; }
-    
     .rol-wrap { flex: 1; display: flex; border-radius: var(--sp-md); overflow: hidden; border: 1px solid rgba(71,85,105,0.6); }
     #rol { border: none; border-radius: 0; flex: 1; background: var(--input); font-size: 12.5px; font-weight: 500; }
     .rol-suffix { padding: 0 10px; height: 38px; line-height: 38px; background: rgba(0,0,0,0.25); color: var(--muted); font-size: 11px; white-space: nowrap; border-left: 1px solid rgba(71,85,105,0.6); font-weight: 500; }
-
     .main { flex: 1; overflow-y: auto; padding: var(--sp-md) var(--sp-lg); display: flex; flex-direction: column; gap: var(--sp-md); }
     .section { background: var(--panel); border-radius: var(--sp-lg); padding: var(--sp-md); border: 1px solid rgba(71,85,105,0.4); }
-    
-    /* ✅ TÍTULOS DE SECCIÓN: bold y legibles */
     .sec-title { font-size: var(--font-sm); font-weight: 700; margin-bottom: var(--sp-sm); color: var(--txt); letter-spacing: 0.3px; }
-
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-sm); }
     .item { display: flex; flex-direction: column; gap: var(--sp-xs); }
-    
-    /* ✅ GRUPO: etiquetas en bold */
     .item label { font-size: var(--font-xs); color: var(--muted); text-align: center; white-space: nowrap; letter-spacing: 0.2px; font-weight: 700; }
     .item select { height: 34px; font-size: var(--font-md); padding: 0 2px; text-align: center; background: rgba(0,0,0,0.15); font-weight: 600; }
-
-    /* ✅ ESTUDIANTES: encabezados +2px y bold */
     .stud-header { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.3fr 1.3fr auto; gap: var(--sp-xs); font-size: 11.5px; color: var(--txt); text-align: center; padding: var(--sp-sm) 2px; border-bottom: 1px solid rgba(71,85,105,0.5); margin-bottom: var(--sp-sm); line-height: 1.2; font-weight: 700; }
     .stud-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.3fr 1.3fr auto; gap: var(--sp-xs); align-items: center; background: rgba(255,255,255,0.035); padding: var(--sp-sm); border-radius: var(--sp-md); margin-bottom: var(--sp-sm); border: 1px solid rgba(71,85,105,0.3); }
     .s-name { font-size: var(--font-sm); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding-left: 2px; }
     .btn-del { background: none; border: none; color: var(--del); font-size: 15px; padding: var(--sp-xs) var(--sp-sm); cursor: pointer; opacity: 0.8; }
     .stud-row select { height: 32px; font-size: var(--font-md); padding: 0 2px; text-align: center; background: rgba(0,0,0,0.15); }
-
     .stud-footer { display: flex; justify-content: space-between; align-items: center; margin-top: var(--sp-sm); padding-top: var(--sp-xs); border-top: 1px solid rgba(71,85,105,0.3); }
     #studCount { margin: 0; font-size: var(--font-xs); font-weight: 600; }
     .btn-add { background: var(--add); color: #fff; border: none; padding: var(--sp-sm) 12px; border-radius: var(--sp-sm); font-size: 11.5px; font-weight: 600; letter-spacing: 0.3px; }
     .btn-add:disabled { background: var(--btn-dis); opacity: 0.5; }
     .empty { text-align: center; color: var(--muted); font-size: var(--font-xs); padding: var(--sp-md) 0; }
-
     .footer { padding: var(--sp-sm) var(--sp-lg) var(--sp-md); background: var(--panel); border-top: 1px solid rgba(71,85,105,0.5); display: flex; align-items: center; flex-shrink: 0; }
     .btn-send { width: 100%; height: 44px; font-size: var(--font-md); font-weight: 700; background: var(--btn); color: #fff; border: none; border-radius: var(--sp-lg); text-transform: uppercase; letter-spacing: 0.5px; }
     .btn-send:disabled { background: var(--btn-dis); color: #64748b; }
     #toast { position: fixed; bottom: 54px; left: 12px; right: 12px; background: rgba(15,23,42,0.95); color: var(--txt); text-align: center; padding: var(--sp-sm); border-radius: var(--sp-md); font-size: var(--font-sm); transform: translateY(20px); opacity: 0; transition: 0.2s cubic-bezier(0.4,0,0.2,1); pointer-events: none; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
     #toast.show { transform: translateY(0); opacity: 1; }
-
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: flex-end; z-index: 200; opacity: 0; pointer-events: none; transition: 0.2s cubic-bezier(0.4,0,0.2,1); }
     .modal.open { opacity: 1; pointer-events: auto; }
     .modal-box { background: var(--panel); width: 100%; border-radius: var(--sp-xl) var(--sp-xl) 0 0; padding: var(--sp-lg); max-height: 65vh; display: flex; flex-direction: column; gap: var(--sp-sm); transform: translateY(100%); transition: 0.25s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 -4px 24px rgba(0,0,0,0.4); }
@@ -75,13 +59,10 @@
     .modal-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: var(--sp-xs); padding-right: 4px; }
     .opt { padding: 10px; background: var(--input); border-radius: var(--sp-sm); cursor: pointer; font-size: var(--font-sm); transition: background 0.15s; }
     .opt:active { background: var(--btn); color: #0f172a; }
-
     @media (max-width: 375px) {
       .grid-4 { grid-template-columns: 1fr 1fr; }
       .stud-header, .stud-row { grid-template-columns: 1.3fr 0.9fr 0.9fr 1.1fr 1.1fr auto; font-size: 10.5px; }
     }
-    
-    /* ✅ Estilo para curso bloqueado */
     #curso:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.3); }
   </style>
 </head>
@@ -90,7 +71,6 @@
     <h1>BITÁCORA DE SEGUIMIENTO</h1>
     <span class="credit">Creado por Carlos Felipe Sepúlveda Rosales</span>
   </div>
-
   <div class="header">
     <select id="curso"><option value="">📚 Curso...</option></select>
     <div class="rol-wrap">
@@ -98,7 +78,6 @@
       <span class="rol-suffix">@educacionlc.cl</span>
     </div>
   </div>
-
   <div class="main">
     <div class="section">
       <div class="sec-title">👧🏻🧒🏻 Grupo</div>
@@ -109,7 +88,6 @@
         <div class="item"><label>4. Limpieza</label><select id="g-lim"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
       </div>
     </div>
-
     <div class="section">
       <div class="stud-header">
         <span style="text-align:left; padding-left:2px">Nombre</span>
@@ -124,13 +102,10 @@
       <div id="emptyMsg" class="empty">Toca + para añadir al seguimiento</div>
     </div>
   </div>
-
   <div class="footer">
     <button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button>
   </div>
-
   <div id="toast"></div>
-
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal-box">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm)">
@@ -143,13 +118,11 @@
   </div>
 
   <script>
-    // ✅ TU WEBHOOK EXACTA
     const WEBHOOK = "https://script.google.com/macros/s/AKfycbwqshmGClNRROBs3zCsDLQdVpLGdJiU8BT4ole0cxXT4qp-NQTAPCvIpMqG3EjaG_j7/exec";
     const KEY = "seguimiento_pendientes";
     const EMOCIONES = ["Bienestar", "Desánimo", "Frustración/Rabia", "Motivación", "Apatía"];
     let cache = {}, added = [], rolSaved = localStorage.getItem('doc_rol') || '';
 
-    // 🔒 REFERENCIAS DOM (con seguridad)
     const cursoSel = document.getElementById('curso');
     const rolInp = document.getElementById('rol');
     const btnSend = document.getElementById('btnSend');
@@ -162,98 +135,95 @@
     const mSearch = document.getElementById('mSearch');
     const mList = document.getElementById('mList');
 
-    // 🔒 FUNCIÓN PARA BLOQUEAR/DESBLOQUEAR CURSO (con seguridad)
     function bloquearCurso(bloquear) {
-      if (!cursoSel) return;
-      cursoSel.disabled = bloquear;
+      if (cursoSel) cursoSel.disabled = bloquear;
     }
 
-    // 📚 CARGA ROBUSTA DE CURSOS
     function initCursos() {
-      if (!cursoSel) {
-        console.error('❌ No se encontró el selector #curso');
-        return;
-      }
-      
+      if (!cursoSel) return;
       const cursos = [];
       ["PKA","PKB","PKC","KA","KB","KC"].forEach(c => cursos.push(c));
       for(let i=1;i<=8;i++) ["A","B","C"].forEach(l => cursos.push(i+"°"+l));
       ["I°","II°","III°","IV°"].forEach(r => ["A","B","C"].forEach(l => cursos.push(r+l)));
-      
-      // Limpiar opciones anteriores excepto la primera
       while(cursoSel.options.length > 1) cursoSel.remove(1);
-      
-      // Agregar nuevas opciones
       cursos.forEach(c => {
-        let o = document.createElement('option'); 
-        o.value = c; 
+        const o = document.createElement('option');
+        o.value = c;
         o.textContent = c;
         cursoSel.appendChild(o);
       });
-      
       if(rolSaved) rolInp.value = rolSaved;
       check();
-      bloquearCurso(false); // Estado inicial: curso desbloqueado
-      console.log('✅ Cursos cargados:', cursos.length);
+      bloquearCurso(false);
     }
 
-    // Ejecutar cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCursos);
-    } else {
-      initCursos();
-    }
+    document.addEventListener('DOMContentLoaded', initCursos);
 
     rolInp.addEventListener('input', e => {
       e.target.value = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");
-      rolSaved = e.target.value; localStorage.setItem('doc_rol', rolSaved); check();
+      rolSaved = e.target.value;
+      localStorage.setItem('doc_rol', rolSaved);
+      check();
     });
 
     cursoSel.addEventListener('change', async () => {
       if(!cursoSel.value) return;
-      toast("🔄 Cargando...", "warn"); btnAdd.disabled=true;
+      toast("🔄 Cargando...", "warn");
+      btnAdd.disabled = true;
       try {
         if(!cache[cursoSel.value]) {
           const r = await fetch(`${WEBHOOK}?action=getEstudiantes&curso=${encodeURIComponent(cursoSel.value)}`);
-          const d = await r.json(); 
+          const d = await r.json();
           if(d.success && d.estudiantes?.length) cache[cursoSel.value] = d.estudiantes; else throw 1;
         }
-        btnAdd.disabled=false; toast("✅ Lista lista", "ok");
+        btnAdd.disabled = false;
+        toast("✅ Lista lista", "ok");
       } catch {
         cache[cursoSel.value] = Array.from({length:30},(_,i)=>({id:i+1, nombre:`Estudiante ${i+1}`}));
-        btnAdd.disabled=false; toast("⚠️ Modo offline", "warn");
+        btnAdd.disabled = false;
+        toast("⚠️ Modo offline", "warn");
       }
     });
 
     btnAdd.addEventListener('click', () => {
       if(!cache[cursoSel.value]) return;
-      mSearch.value=''; renderModal(cache[cursoSel.value]); modal.classList.add('open');
+      mSearch.value = '';
+      renderModal(cache[cursoSel.value]);
+      modal.classList.add('open');
     });
-    function renderModal(list){
-      const used = added.map(s=>s.id);
-      mList.innerHTML = list.filter(s=>!used.includes(s.id)).map(s=>
+
+    function renderModal(list) {
+      const used = added.map(s => s.id);
+      mList.innerHTML = list.filter(s => !used.includes(s.id)).map(s =>
         `<div class="opt" onclick="pick(${s.id},'${s.nombre.replace(/'/g,"\\'")}')">${s.id} - ${s.nombre}</div>`
       ).join('') || '<div style="text-align:center;padding:14px;color:var(--muted)">Máximo 5 o todos agregados</div>';
     }
-    function closeModal(){ modal.classList.remove('open'); }
+
+    function closeModal() { modal.classList.remove('open'); }
     mSearch.addEventListener('input', () => {
       if(!cache[cursoSel.value]) return;
       const q = mSearch.value.toLowerCase().trim();
-      renderModal(cache[cursoSel.value].filter(s=> s.nombre.toLowerCase().includes(q) || String(s.id).includes(q)));
+      renderModal(cache[cursoSel.value].filter(s => s.nombre.toLowerCase().includes(q) || String(s.id).includes(q)));
     });
 
-    function pick(id, nombre){
-      if(added.length>=5) return;
+    function pick(id, nombre) {
+      if(added.length >= 5) return;
       added.push({id, nombre, reg:'', tra:'', tar:'', emo:''});
-      renderList(); closeModal(); check();
-      bloquearCurso(true); // 🔒 BLOQUEAR CURSO AL AGREGAR ESTUDIANTE
+      renderList();
+      closeModal();
+      check();
+      bloquearCurso(true);
     }
-    function renderList(){
+
+    function renderList() {
       studCount.textContent = `🎯 Estudiantes (${added.length}/5)`;
-      if(!added.length){ emptyMsg.style.display='block'; studList.innerHTML=''; return; }
-      emptyMsg.style.display='none';
-      
-      studList.innerHTML = added.map((s,i)=>`
+      if(!added.length) {
+        emptyMsg.style.display = 'block';
+        studList.innerHTML = '';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+      studList.innerHTML = added.map((s,i) => `
         <div class="stud-row">
           <span class="s-name">${s.nombre}</span>
           <select onchange="up(${i},'reg',this.value)"><option value="">-</option><option ${s.reg==1?'selected':''}>1</option><option ${s.reg==2?'selected':''}>2</option><option ${s.reg==3?'selected':''}>3</option><option ${s.reg==4?'selected':''}>4</option><option ${s.reg==5?'selected':''}>5</option></select>
@@ -266,78 +236,92 @@
           <button class="btn-del" onclick="remove(${i})">✕</button>
         </div>`).join('');
     }
-    function remove(i){ 
-      added.splice(i,1); 
-      renderList(); check(); 
-      if(added.length === 0) bloquearCurso(false); // 🔓 DESBLOQUEAR SI QUEDÓ VACÍO
-    }
-    function up(i, k, v){ added[i][k]=v; check(); }
 
-    function check(){
-      const g1=document.getElementById('g-reg').value, g2=document.getElementById('g-tra').value, 
-            g3=document.getElementById('g-tar').value, g4=document.getElementById('g-lim').value;
+    function remove(i) {
+      added.splice(i,1);
+      renderList();
+      check();
+      if(added.length === 0) bloquearCurso(false);
+    }
+
+    function up(i, k, v) { added[i][k] = v; check(); }
+
+    function check() {
+      const g1 = document.getElementById('g-reg').value;
+      const g2 = document.getElementById('g-tra').value;
+      const g3 = document.getElementById('g-tar').value;
+      const g4 = document.getElementById('g-lim').value;
       const okGroup = g1 && g2 && g3 && g4;
-      const okStud = added.length===0 || added.every(s=>s.reg&&s.tra&&s.tar&&s.emo);
+      const okStud = added.length === 0 || added.every(s => s.reg && s.tra && s.tar && s.emo);
       const valid = cursoSel.value && rolInp.value.trim() && okGroup && okStud;
       btnSend.disabled = !valid;
-      toast(valid?"✅ Listo para enviar":"Completa todas las dimensiones", valid?"ok":"");
+      toast(valid ? "✅ Listo para enviar" : "Completa todas las dimensiones", valid ? "ok" : "");
     }
-    ['g-reg','g-tra','g-tar','g-lim'].forEach(id => document.getElementById(id).onchange=check);
+
+    ['g-reg','g-tra','g-tar','g-lim'].forEach(id => document.getElementById(id).onchange = check);
 
     btnSend.addEventListener('click', () => {
       if(btnSend.disabled) return;
       const data = {
-        timestamp: new Date().toISOString(), 
-        curso: cursoSel.value, 
+        timestamp: new Date().toISOString(),
+        curso: cursoSel.value,
         rol: rolInp.value.trim(),
-        grupo: { reg:document.getElementById('g-reg').value, tra:document.getElementById('g-tra').value, tar:document.getElementById('g-tar').value, lim:document.getElementById('g-lim').value },
-        estudiantes: added.map(s=>({id:s.id, nombre:s.nombre, reg:s.reg, tra:s.tra, tar:s.tar, emo:s.emo}))
+        grupo: {
+          reg: document.getElementById('g-reg').value,
+          tra: document.getElementById('g-tra').value,
+          tar: document.getElementById('g-tar').value,
+          lim: document.getElementById('g-lim').value
+        },
+        estudiantes: added.map(s => ({id:s.id, nombre:s.nombre, reg:s.reg, tra:s.tra, tar:s.tar, emo:s.emo}))
       };
-      
-      let cola = JSON.parse(localStorage.getItem(KEY)||'[]');
+      let cola = JSON.parse(localStorage.getItem(KEY) || '[]');
       cola.push(data);
       localStorage.setItem(KEY, JSON.stringify(cola));
-      
       toast("✅ Registrado. Se sincroniza en segundo plano", "ok");
       setTimeout(reset, 700);
-      
       if(navigator.onLine) sincronizarEnSegundoPlano();
     });
 
-    function reset(){
-      ['g-reg','g-tra','g-tar','g-lim'].forEach(id=>document.getElementById(id).value='');
-      added=[]; renderList(); check();
-      bloquearCurso(false); // 🔓 DESBLOQUEAR DESPUÉS DE ENVIAR
+    function reset() {
+      ['g-reg','g-tra','g-tar','g-lim'].forEach(id => document.getElementById(id).value = '');
+      added = [];
+      renderList();
+      check();
+      bloquearCurso(false);
     }
 
-    async function sincronizarEnSegundoPlano(){
-      let cola = JSON.parse(localStorage.getItem(KEY)||'[]');
+    async function sincronizarEnSegundoPlano() {
+      let cola = JSON.parse(localStorage.getItem(KEY) || '[]');
       if(cola.length === 0) return;
-      
       const okIndices = [];
-      for(let i=0; i<cola.length; i++){
+      for(let i = 0; i < cola.length; i++) {
         try {
           const res = await fetch(WEBHOOK, {
-            method:'POST',
-            headers:{'Content-Type':'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({  JSON.stringify(cola[i]) })
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: new URLSearchParams({ data: JSON.stringify(cola[i]) })
           });
           if(res.ok) okIndices.push(i);
-        } catch(e) { /* fallar silenciosamente */ }
+        } catch(e) {}
       }
-      
-      if(okIndices.length > 0){
+      if(okIndices.length > 0) {
         cola = cola.filter((_, idx) => !okIndices.includes(idx));
         localStorage.setItem(KEY, JSON.stringify(cola));
       }
     }
+
     window.addEventListener('online', () => {
       toast("🌐 Conexión restaurada. Sincronizando...", "ok");
       sincronizarEnSegundoPlano();
     });
+
     if(navigator.onLine) sincronizarEnSegundoPlano();
 
-    function toast(msg, cls){ toastEl.textContent=msg; toastEl.className=cls?cls+' show':'show'; setTimeout(()=>toastEl.className='', 2000); }
+    function toast(msg, cls) {
+      toastEl.textContent = msg;
+      toastEl.className = cls ? cls + ' show' : 'show';
+      setTimeout(() => toastEl.className = '', 2000);
+    }
   </script>
 </body>
 </html>
