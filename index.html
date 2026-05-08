@@ -81,7 +81,7 @@
       .stud-header, .stud-row { grid-template-columns: 1.3fr 0.9fr 0.9fr 1.1fr 1.1fr auto; font-size: 10.5px; }
     }
     
-    /* ✅ NUEVO: Estilo para curso bloqueado */
+    /* ✅ Estilo para curso bloqueado */
     #curso:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.3); }
   </style>
 </head>
@@ -149,6 +149,7 @@
     const EMOCIONES = ["Bienestar", "Desánimo", "Frustración/Rabia", "Motivación", "Apatía"];
     let cache = {}, added = [], rolSaved = localStorage.getItem('doc_rol') || '';
 
+    // 🔒 REFERENCIAS DOM (con seguridad)
     const cursoSel = document.getElementById('curso');
     const rolInp = document.getElementById('rol');
     const btnSend = document.getElementById('btnSend');
@@ -161,27 +162,47 @@
     const mSearch = document.getElementById('mSearch');
     const mList = document.getElementById('mList');
 
-    // 🔒 FUNCIÓN PARA BLOQUEAR/DESBLOQUEAR CURSO
+    // 🔒 FUNCIÓN PARA BLOQUEAR/DESBLOQUEAR CURSO (con seguridad)
     function bloquearCurso(bloquear) {
+      if (!cursoSel) return;
       cursoSel.disabled = bloquear;
     }
 
+    // 📚 CARGA ROBUSTA DE CURSOS
     function initCursos() {
+      if (!cursoSel) {
+        console.error('❌ No se encontró el selector #curso');
+        return;
+      }
+      
       const cursos = [];
       ["PKA","PKB","PKC","KA","KB","KC"].forEach(c => cursos.push(c));
       for(let i=1;i<=8;i++) ["A","B","C"].forEach(l => cursos.push(i+"°"+l));
       ["I°","II°","III°","IV°"].forEach(r => ["A","B","C"].forEach(l => cursos.push(r+l)));
       
+      // Limpiar opciones anteriores excepto la primera
       while(cursoSel.options.length > 1) cursoSel.remove(1);
+      
+      // Agregar nuevas opciones
       cursos.forEach(c => {
-        let o = document.createElement('option'); o.value = c; o.textContent = c;
+        let o = document.createElement('option'); 
+        o.value = c; 
+        o.textContent = c;
         cursoSel.appendChild(o);
       });
+      
       if(rolSaved) rolInp.value = rolSaved;
       check();
-      bloquearCurso(false); // ✅ Estado inicial: curso desbloqueado
+      bloquearCurso(false); // Estado inicial: curso desbloqueado
+      console.log('✅ Cursos cargados:', cursos.length);
     }
-    document.addEventListener('DOMContentLoaded', initCursos);
+
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCursos);
+    } else {
+      initCursos();
+    }
 
     rolInp.addEventListener('input', e => {
       e.target.value = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");
@@ -225,7 +246,7 @@
       if(added.length>=5) return;
       added.push({id, nombre, reg:'', tra:'', tar:'', emo:''});
       renderList(); closeModal(); check();
-      bloquearCurso(true); // ✅ BLOQUEAR CURSO AL AGREGAR ESTUDIANTE
+      bloquearCurso(true); // 🔒 BLOQUEAR CURSO AL AGREGAR ESTUDIANTE
     }
     function renderList(){
       studCount.textContent = `🎯 Estudiantes (${added.length}/5)`;
@@ -248,7 +269,7 @@
     function remove(i){ 
       added.splice(i,1); 
       renderList(); check(); 
-      if(added.length === 0) bloquearCurso(false); // ✅ DESBLOQUEAR SI QUEDÓ VACÍO
+      if(added.length === 0) bloquearCurso(false); // 🔓 DESBLOQUEAR SI QUEDÓ VACÍO
     }
     function up(i, k, v){ added[i][k]=v; check(); }
 
@@ -286,7 +307,7 @@
     function reset(){
       ['g-reg','g-tra','g-tar','g-lim'].forEach(id=>document.getElementById(id).value='');
       added=[]; renderList(); check();
-      bloquearCurso(false); // ✅ DESBLOQUEAR DESPUÉS DE ENVIAR
+      bloquearCurso(false); // 🔓 DESBLOQUEAR DESPUÉS DE ENVIAR
     }
 
     async function sincronizarEnSegundoPlano(){
@@ -314,7 +335,7 @@
       toast("🌐 Conexión restaurada. Sincronizando...", "ok");
       sincronizarEnSegundoPlano();
     });
-    document.addEventListener('DOMContentLoaded', () => { if(navigator.onLine) sincronizarEnSegundoPlano(); });
+    if(navigator.onLine) sincronizarEnSegundoPlano();
 
     function toast(msg, cls){ toastEl.textContent=msg; toastEl.className=cls?cls+' show':'show'; setTimeout(()=>toastEl.className='', 2000); }
   </script>
