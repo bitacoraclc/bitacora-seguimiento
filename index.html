@@ -80,6 +80,9 @@
       .grid-4 { grid-template-columns: 1fr 1fr; }
       .stud-header, .stud-row { grid-template-columns: 1.3fr 0.9fr 0.9fr 1.1fr 1.1fr auto; font-size: 10.5px; }
     }
+    
+    /* ✅ NUEVO: Estilo para curso bloqueado */
+    #curso:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.3); }
   </style>
 </head>
 <body>
@@ -140,6 +143,7 @@
   </div>
 
   <script>
+    // ✅ TU WEBHOOK EXACTA
     const WEBHOOK = "https://script.google.com/macros/s/AKfycbwqshmGClNRROBs3zCsDLQdVpLGdJiU8BT4ole0cxXT4qp-NQTAPCvIpMqG3EjaG_j7/exec";
     const KEY = "seguimiento_pendientes";
     const EMOCIONES = ["Bienestar", "Desánimo", "Frustración/Rabia", "Motivación", "Apatía"];
@@ -157,6 +161,11 @@
     const mSearch = document.getElementById('mSearch');
     const mList = document.getElementById('mList');
 
+    // 🔒 FUNCIÓN PARA BLOQUEAR/DESBLOQUEAR CURSO
+    function bloquearCurso(bloquear) {
+      cursoSel.disabled = bloquear;
+    }
+
     function initCursos() {
       const cursos = [];
       ["PKA","PKB","PKC","KA","KB","KC"].forEach(c => cursos.push(c));
@@ -170,6 +179,7 @@
       });
       if(rolSaved) rolInp.value = rolSaved;
       check();
+      bloquearCurso(false); // ✅ Estado inicial: curso desbloqueado
     }
     document.addEventListener('DOMContentLoaded', initCursos);
 
@@ -215,6 +225,7 @@
       if(added.length>=5) return;
       added.push({id, nombre, reg:'', tra:'', tar:'', emo:''});
       renderList(); closeModal(); check();
+      bloquearCurso(true); // ✅ BLOQUEAR CURSO AL AGREGAR ESTUDIANTE
     }
     function renderList(){
       studCount.textContent = `🎯 Estudiantes (${added.length}/5)`;
@@ -234,7 +245,11 @@
           <button class="btn-del" onclick="remove(${i})">✕</button>
         </div>`).join('');
     }
-    function remove(i){ added.splice(i,1); renderList(); check(); }
+    function remove(i){ 
+      added.splice(i,1); 
+      renderList(); check(); 
+      if(added.length === 0) bloquearCurso(false); // ✅ DESBLOQUEAR SI QUEDÓ VACÍO
+    }
     function up(i, k, v){ added[i][k]=v; check(); }
 
     function check(){
@@ -271,6 +286,7 @@
     function reset(){
       ['g-reg','g-tra','g-tar','g-lim'].forEach(id=>document.getElementById(id).value='');
       added=[]; renderList(); check();
+      bloquearCurso(false); // ✅ DESBLOQUEAR DESPUÉS DE ENVIAR
     }
 
     async function sincronizarEnSegundoPlano(){
@@ -283,7 +299,7 @@
           const res = await fetch(WEBHOOK, {
             method:'POST',
             headers:{'Content-Type':'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({ data: JSON.stringify(cola[i]) })
+            body: new URLSearchParams({  JSON.stringify(cola[i]) })
           });
           if(res.ok) okIndices.push(i);
         } catch(e) { /* fallar silenciosamente */ }
