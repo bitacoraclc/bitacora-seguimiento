@@ -135,12 +135,6 @@
     const mSearch = document.getElementById('mSearch');
     const mList = document.getElementById('mList');
 
-    // ✅ NUEVO: Función para limpiar nombres (quita + y decodifica)
-    function limpiarNombre(nombre) {
-      if (!nombre) return '';
-      return decodeURIComponent(nombre.replace(/\+/g, ' ')).trim();
-    }
-
     function bloquearCurso(bloquear) {
       if (cursoSel) cursoSel.disabled = bloquear;
     }
@@ -180,13 +174,7 @@
         if(!cache[cursoSel.value]) {
           const r = await fetch(`${WEBHOOK}?action=getEstudiantes&curso=${encodeURIComponent(cursoSel.value)}`);
           const d = await r.json();
-          if(d.success && d.estudiantes?.length) {
-            // ✅ APLICAR LIMPIEZA DE NOMBRES AL RECIBIR DATOS
-            cache[cursoSel.value] = d.estudiantes.map(e => ({
-              id: e.id,
-              nombre: limpiarNombre(e.nombre)
-            }));
-          } else throw 1;
+          if(d.success && d.estudiantes?.length) cache[cursoSel.value] = d.estudiantes; else throw 1;
         }
         btnAdd.disabled = false;
         toast("✅ Lista lista", "ok");
