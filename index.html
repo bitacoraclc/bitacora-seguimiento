@@ -8,31 +8,26 @@
 <style>
 /* 🎛️ PANEL DE AJUSTES VISUALES - MODIFICA SOLO LOS NÚMEROS AQUÍ */
 :root {
-  /* 🔹 Tamaños de texto */
-  --titulo-size: 14px;        /* "BITÁCORA DE SEGUIMIENTO" */
-  --etiqueta-size: 12px;      /* "1. Regulación", "2. Buen trato", etc. */
-  --input-size: 14px;         /* Texto en desplegables y modal */
-  --nombre-size: 13px;        /* Nombre del estudiante en la lista */
-  --header-size: 11px;        /* Encabezados de la tabla de estudiantes */
-  --btn-size: 14px;           /* Botón "ENVIAR" */
-  --sec-title-size: 13px;     /* "👧🏻🧒🏻 Grupo" y "🎯 Estudiantes" */
-  --credit-size: 7.5px;       /* Texto "Creado por..." */
-  --toast-size: 12px;         /* Mensajes emergentes */
-  
-  /* 🔹 Colores (puedes cambiar los códigos hex) */
-  --bg: #0b1120;              /* Fondo general */
-  --panel: #1e293b;           /* Paneles y secciones */
-  --input: #334155;           /* Campos de entrada */
-  --btn: #3b82f6;             /* Botón principal (azul) */
-  --add: #10b981;             /* Botón "+ Agregar" (verde) */
-  --del: #f87171;             /* Botón eliminar (rojo) */
-  --txt: #e2e8f0;             /* Texto principal */
-  --muted: #94a3b8;           /* Texto secundario */
-  
-  /* 🔹 Espaciados (no modificar si no sabes CSS) */
+  --titulo-size: 14px;
+  --etiqueta-size: 12px;
+  --input-size: 14px;
+  --nombre-size: 13px;
+  --header-size: 11px;
+  --btn-size: 14px;
+  --sec-title-size: 13px;
+  --credit-size: 7.5px;
+  --toast-size: 12px;
+  --bg: #0b1120;
+  --panel: #1e293b;
+  --input: #334155;
+  --btn: #3b82f6;
+  --add: #10b981;
+  --del: #f87171;
+  --txt: #e2e8f0;
+  --muted: #94a3b8;
   --sp-xs: 3px; --sp-sm: 5px; --sp-md: 8px; --sp-lg: 13px; --sp-xl: 21px;
 }
-/* 🔽 FIN DEL PANEL - NO TOCAR LO DEMÁS SI NO SABES CSS */
+/* 🔽 FIN DEL PANEL */
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
@@ -111,7 +106,47 @@ function initCursos(){if(!cursoSel)return;const cursos=[];["PKA","PKB","PKC","KA
 document.addEventListener("DOMContentLoaded",initCursos);
 rolInp.addEventListener("input",e=>{e.target.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");rolSaved=e.target.value;localStorage.setItem("doc_rol",rolSaved);check()});
 
-cursoSel.addEventListener("change",async()=>{if(!cursoSel.value)return;toast("🔄 Cargando...","warn");btnAdd.disabled=true;try{if(!cache[cursoSel.value]){if(!navigator.onLine){const guardado=localStorage.getItem("lista_"+cursoSel.value);if(guardado){cache[cursoSel.value]=JSON.parse(guardado);btnAdd.disabled=false;toast("📴 Offline","warn");return}}const r=await fetch(WEBHOOK+"?action=getEstudiantes&curso="+encodeURIComponent(cursoSel.value));const d=await r.json();if(d.success&&d.estudiantes?.length){cache[cursoSel.value]=d.estudiantes.map(e=>({id:e.id,nombre:limpiarNombre(e.nombre)}));localStorage.setItem("lista_"+cursoSel.value,JSON.stringify(cache[cursoSel.value]))}else throw 1}btnAdd.disabled=false;toast("✅ Lista lista","ok")}catch{const guardado=localStorage.getItem("lista_"+cursoSel.value);if(guardado){cache[cursoSel.value]=JSON.parse(guardado);btnAdd.disabled=false;toast("⚠️ Guardada","warn");return}cache[cursoSel.value]=Array.from({length:30},(_,i)=>({id:i+1,nombre:"Estudiante "+(i+1)}));btnAdd.disabled=false;toast("⚠️ Modo offline","warn")}});
+// ✅ CARGA DE CURSOS CORREGIDA: Siempre prioriza internet, fallback a caché
+cursoSel.addEventListener("change",async()=>{
+  if(!cursoSel.value)return;
+  toast("🔄 Cargando...","warn");
+  btnAdd.disabled=true;
+  
+  const clave="lista_"+cursoSel.value;
+  
+  try{
+    // 1. Intentar fetch SIEMPRE que sea posible
+    const r=await fetch(WEBHOOK+"?action=getEstudiantes&curso="+encodeURIComponent(cursoSel.value));
+    const d=await r.json();
+    
+    if(d.success && d.estudiantes?.length){
+      // Éxito: actualizar cache y localStorage
+      cache[cursoSel.value]=d.estudiantes.map(e=>({id:e.id,nombre:limpiarNombre(e.nombre)}));
+      localStorage.setItem(clave,JSON.stringify(cache[cursoSel.value]));
+      btnAdd.disabled=false;
+      toast("✅ Lista actualizada","ok");
+      return;
+    }else{
+      throw new Error("Respuesta inválida");
+    }
+  }catch(error){
+    // 2. Fallback a caché local si fetch falla
+    console.log("⚠️ Fetch falló, usando caché:",error.message);
+    
+    const guardado=localStorage.getItem(clave);
+    if(guardado){
+      cache[cursoSel.value]=JSON.parse(guardado);
+      btnAdd.disabled=false;
+      toast("📴 Usando lista guardada","warn");
+      return;
+    }
+    
+    // 3. Fallback genérico si no hay caché
+    cache[cursoSel.value]=Array.from({length:30},(_,i)=>({id:i+1,nombre:"Estudiante "+(i+1)}));
+    btnAdd.disabled=false;
+    toast("⚠️ Modo offline - lista genérica","warn");
+  }
+});
 
 btnAdd.addEventListener("click",()=>{if(!cache[cursoSel.value])return;mSearch.value="";renderModal(cache[cursoSel.value]);modal.classList.add("open")});
 function renderModal(list){const used=added.map(s=>s.id);mList.innerHTML=list.filter(s=>!used.includes(s.id)).map(s=>"<div class='opt' onclick='pick("+s.id+",\""+s.nombre.replace(/'/g,"\\'")+"\")'>"+s.id+" - "+s.nombre+"</div>").join("")||"<div style='text-align:center;padding:14px;color:var(--muted)'>Máximo 5 o todos agregados</div>"}
