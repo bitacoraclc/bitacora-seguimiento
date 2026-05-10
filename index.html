@@ -9,17 +9,15 @@
 /* 🎛️ PANEL DE AJUSTES VISUALES - MODIFICA SOLO LOS NÚMEROS AQUÍ */
 :root {
   /* 🔹 Tamaños de texto */
-  --titulo-size: 13.5px;        /* "BITÁCORA DE SEGUIMIENTO" */
+  --titulo-size: 14px;        /* "BITÁCORA DE SEGUIMIENTO" */
   --etiqueta-size: 12px;      /* "1. Regulación", "2. Buen trato", etc. */
   --input-size: 14px;         /* Texto en desplegables y modal */
   --nombre-size: 13px;        /* Nombre del estudiante en la lista */
   --header-size: 11px;        /* Encabezados de la tabla de estudiantes */
   --btn-size: 14px;           /* Botón "ENVIAR" */
   --sec-title-size: 13px;     /* "👧🏻🧒🏻 Grupo" y "🎯 Estudiantes" */
-  --credit-size: 8.5px;       /* Texto "Creado por..." */
-  --toast-size: 12px;         /* Mensajes emergentes */
   
-  /* 🔹 Colores (puedes cambiar los códigos hex) */
+  /* 🔹 Colores */
   --bg: #0b1120;              /* Fondo general */
   --panel: #1e293b;           /* Paneles y secciones */
   --input: #334155;           /* Campos de entrada */
@@ -36,9 +34,8 @@
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
-.top-bar{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);flex-shrink:0}
+.top-bar{display:flex;justify-content:center;align-items:center;padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);flex-shrink:0}
 .top-bar h1{font-size:var(--titulo-size);font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
-.credit{font-size:var(--credit-size);color:rgba(226,232,240,0.4);font-style:italic;user-select:none}
 .header{padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);display:flex;gap:var(--sp-md);flex-shrink:0}
 select,input{width:100%;height:38px;padding:0 10px;background:var(--input);color:var(--txt);border:1px solid rgba(71,85,105,0.6);border-radius:var(--sp-md);font-size:var(--input-size);appearance:none;background-image:url("image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 select::-ms-expand{display:none}
@@ -64,10 +61,12 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 .btn-add{background:var(--add);color:#fff;border:none;padding:var(--sp-sm) 12px;border-radius:var(--sp-sm);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
 .btn-add:disabled{background:var(--btn-dis);opacity:0.5}
 .empty{text-align:center;color:var(--muted);font-size:10px;padding:var(--sp-md) 0}
-.footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;align-items:center;flex-shrink:0}
+/* ✅ FOOTER ACTUALIZADO */
+.footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;flex-direction:column;align-items:center;gap:var(--sp-sm);flex-shrink:0}
+.footer-credit{font-size:10px;color:rgba(226,232,240,0.5);text-align:center;user-select:none;opacity:0.8}
 .btn-send{width:100%;height:44px;font-size:var(--btn-size);font-weight:700;background:var(--btn);color:#fff;border:none;border-radius:var(--sp-lg);text-transform:uppercase;letter-spacing:0.5px}
 .btn-send:disabled{background:var(--btn-dis);color:#64748b}
-#toast{position:fixed;bottom:54px;left:12px;right:12px;background:rgba(15,23,42,0.95);color:var(--txt);text-align:center;padding:var(--sp-sm);border-radius:var(--sp-md);font-size:var(--toast-size);transform:translateY(20px);opacity:0;transition:0.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+#toast{position:fixed;bottom:54px;left:12px;right:12px;background:rgba(15,23,42,0.95);color:var(--txt);text-align:center;padding:var(--sp-sm);border-radius:var(--sp-md);font-size:12px;transform:translateY(20px);opacity:0;transition:0.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
 #toast.show{transform:translateY(0);opacity:1}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:flex-end;z-index:200;opacity:0;pointer-events:none;transition:0.2s cubic-bezier(0.4,0,0.2,1)}
 .modal.open{opacity:1;pointer-events:auto}
@@ -81,10 +80,13 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 </style>
 </head>
 <body>
-<div class="top-bar"><h1>BITÁCORA DE SEGUIMIENTO</h1><span class="credit">Creado por Carlos Felipe Sepúlveda Rosales</span></div>
+<div class="top-bar"><h1>BITÁCORA DE SEGUIMIENTO</h1></div>
 <div class="header"><select id="curso"><option value="">📚 Curso...</option></select><div class="rol-wrap"><input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text"><span class="rol-suffix">@educacionlc.cl</span></div></div>
 <div class="main"><div class="section"><div class="sec-title">👧🏻🧒🏻 Grupo</div><div class="grid-4"><div class="item"><label>1. Regulación</label><select id="g-reg"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>2. Buen trato</label><select id="g-tra"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>3. Trabajo en clases</label><select id="g-tar"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>4. Limpieza</label><select id="g-lim"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div></div><div class="section"><div class="stud-header"><span style="text-align:left;padding-left:2px">Nombre</span><span>Regulación</span><span>Trato</span><span>Trabajo en clases</span><span>Emoción pred.</span><span></span></div><div id="studList"></div><div class="stud-footer"><div class="sec-title" id="studCount">🎯 Estudiantes (0/5)</div><button class="btn-add" id="btnAdd" disabled>+ Agregar</button></div><div id="emptyMsg" class="empty">Toca + para añadir al seguimiento</div></div></div>
-<div class="footer"><button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button></div>
+<div class="footer">
+  <span class="footer-credit">Desarrollado por Carlos Felipe Sepúlveda — 2026</span>
+  <button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button>
+</div>
 <div id="toast"></div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm)"><span style="font-weight:600;font-size:var(--font-md)">Seleccionar estudiante</span><button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:20px;line-height:1;padding:4px">✕</button></div><input type="text" id="mSearch" placeholder="Buscar nombre o número..." style="margin-bottom:var(--sp-sm)"><div class="modal-list" id="mList"></div></div></div>
 
@@ -125,7 +127,7 @@ function check(){const g1=document.getElementById("g-reg").value,g2=document.get
 ["g-reg","g-tra","g-tar","g-lim"].forEach(id=>document.getElementById(id).onchange=check);
 btnSend.addEventListener("click",()=>{if(btnSend.disabled)return;const data={timestamp:new Date().toISOString(),curso:cursoSel.value,rol:rolInp.value.trim(),grupo:{reg:document.getElementById("g-reg").value,tra:document.getElementById("g-tra").value,tar:document.getElementById("g-tar").value,lim:document.getElementById("g-lim").value},estudiantes:added.map(s=>({id:s.id,nombre:s.nombre,reg:s.reg,tra:s.tra,tar:s.tar,emo:s.emo}))};let cola=JSON.parse(localStorage.getItem(KEY)||"[]");cola.push(data);localStorage.setItem(KEY,JSON.stringify(cola));toast("✅ Registrado. Se sincroniza en segundo plano","ok");setTimeout(reset,700);if(navigator.onLine)sincronizarEnSegundoPlano()});
 function reset(){["g-reg","g-tra","g-tar","g-lim"].forEach(id=>document.getElementById(id).value="");added=[];renderList();check();bloquearCurso(false)}
-async function sincronizarEnSegundoPlano(){let cola=JSON.parse(localStorage.getItem(KEY)||"[]");if(cola.length===0)return;const okIndices=[];for(let i=0;i<cola.length;i++){try{const res=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({data:JSON.stringify(cola[i])})});if(res.ok)okIndices.push(i)}catch{}}if(okIndices.length>0){cola=cola.filter((_,idx)=>!okIndices.includes(idx));localStorage.setItem(KEY,JSON.stringify(cola))}}
+async function sincronizarEnSegundoPlano(){let cola=JSON.parse(localStorage.getItem(KEY)||"[]");if(cola.length===0)return;const okIndices=[];for(let i=0;i<cola.length;i++){try{const res=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({JSON.stringify(cola[i])})});if(res.ok)okIndices.push(i)}catch{}}if(okIndices.length>0){cola=cola.filter((_,idx)=>!okIndices.includes(idx));localStorage.setItem(KEY,JSON.stringify(cola))}}
 window.addEventListener("online",()=>{toast("🌐 Conexión restaurada. Sincronizando...","ok");sincronizarEnSegundoPlano()});
 if(navigator.onLine)sincronizarEnSegundoPlano();
 function toast(msg,cls){toastEl.textContent=msg;toastEl.className=cls?cls+" show":"show";setTimeout(()=>toastEl.className="",2000)}
