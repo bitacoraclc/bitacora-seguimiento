@@ -132,7 +132,7 @@ cursoSel.addEventListener("change",async()=>{
       cache[cursoSel.value]=d.estudiantes.map(e=>({id:e.id,nombre:limpiarNombre(e.nombre)}));
       localStorage.setItem(clave,JSON.stringify(cache[cursoSel.value]));
       btnAdd.disabled=false;
-      toast("✅ Lista actualizada","ok");
+      toast("✅ Lista lista","ok");
       return;
     }else{
       throw new Error("Respuesta inválida");
@@ -152,7 +152,7 @@ cursoSel.addEventListener("change",async()=>{
     // 3. Fallback genérico si no hay caché
     cache[cursoSel.value]=Array.from({length:30},(_,i)=>({id:i+1,nombre:"Estudiante "+(i+1)}));
     btnAdd.disabled=false;
-    toast("⚠️ Modo offline - lista genérica","warn");
+    toast("⚠️ Modo offline","warn");
   }
 });
 
