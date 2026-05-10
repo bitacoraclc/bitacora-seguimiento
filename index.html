@@ -32,15 +32,21 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
 
-/* ✅ CAMBIO 1: Centrar título */
+/* ✅ CAMBIO 1: Título centrado */
 .top-bar{display:flex;justify-content:center;align-items:center;padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);flex-shrink:0}
 .top-bar h1{font-size:var(--titulo-size);font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
 
-.header{padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);display:flex;gap:var(--sp-md);flex-shrink:0}
+.header{padding:var(--sp-md) var(--sp-lg);background:var(--panel);border-bottom:1px solid rgba(71,85,105,0.5);display:flex;gap:var(--sp-md);flex-shrink:0;align-items:center}
 select,input{width:100%;height:38px;padding:0 10px;background:var(--input);color:var(--txt);border:1px solid rgba(71,85,105,0.6);border-radius:var(--sp-md);font-size:var(--input-size);appearance:none;background-image:url("image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 select::-ms-expand{display:none}
 option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 #curso{flex:0 0 38%;min-width:105px;font-size:var(--input-size);font-weight:700}
+
+/* ✅ CAMBIO 4: Botón 🔄 de actualización */
+.btn-refresh{background:#475569;border:none;border-radius:8px;color:white;font-size:16px;height:38px;width:38px;margin-left:4px;cursor:pointer;opacity:0.9;transition:opacity 0.2s}
+.btn-refresh:hover{opacity:1}
+.btn-refresh:disabled{opacity:0.4;cursor:not-allowed}
+
 .rol-wrap{flex:1;display:flex;border-radius:var(--sp-md);overflow:hidden;border:1px solid rgba(71,85,105,0.6)}
 #rol{border:none;border-radius:0;flex:1;background:var(--input);font-size:12.5px;font-weight:500}
 .rol-suffix{padding:0 10px;height:38px;line-height:38px;background:rgba(0,0,0,0.25);color:var(--muted);font-size:11px;white-space:nowrap;border-left:1px solid rgba(71,85,105,0.6);font-weight:500}
@@ -62,7 +68,7 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 .btn-add:disabled{background:var(--btn-dis);opacity:0.5}
 .empty{text-align:center;color:var(--muted);font-size:10px;padding:var(--sp-md) 0}
 
-/* ✅ CAMBIO 3: Crédito en zona oscura, antes del botón */
+/* ✅ CAMBIO 3: Crédito en zona oscura */
 .footer-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.35);padding:6px 0 10px;background:var(--bg);flex-shrink:0;user-select:none;pointer-events:none}
 
 .footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;align-items:center;flex-shrink:0}
@@ -82,12 +88,19 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 </style>
 </head>
 <body>
-<!-- ✅ CAMBIO 2: Título centrado, sin crédito arriba -->
+<!-- ✅ Título centrado, sin crédito arriba -->
 <div class="top-bar"><h1>BITÁCORA DE SEGUIMIENTO</h1></div>
-<div class="header"><select id="curso"><option value="">📚 Curso...</option></select><div class="rol-wrap"><input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text"><span class="rol-suffix">@educacionlc.cl</span></div></div>
+
+<!-- ✅ Header con botón 🔄 -->
+<div class="header">
+  <select id="curso"><option value="">📚 Curso...</option></select>
+  <button class="btn-refresh" id="btnRefresh" title="Actualizar lista">🔄</button>
+  <div class="rol-wrap"><input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text"><span class="rol-suffix">@educacionlc.cl</span></div>
+</div>
+
 <div class="main"><div class="section"><div class="sec-title">👧🏻🧒🏻 Grupo</div><div class="grid-4"><div class="item"><label>1. Regulación</label><select id="g-reg"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>2. Buen trato</label><select id="g-tra"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>3. Trabajo en clases</label><select id="g-tar"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>4. Limpieza</label><select id="g-lim"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div></div><div class="section"><div class="stud-header"><span style="text-align:left;padding-left:2px">Nombre</span><span>Regulación</span><span>Trato</span><span>Trabajo en clases</span><span>Emoción pred.</span><span></span></div><div id="studList"></div><div class="stud-footer"><div class="sec-title" id="studCount">🎯 Estudiantes (0/5)</div><button class="btn-add" id="btnAdd" disabled>+ Agregar</button></div><div id="emptyMsg" class="empty">Toca + para añadir al seguimiento</div></div></div>
 
-<!-- ✅ CAMBIO 3: Crédito en zona oscura, antes del botón -->
+<!-- ✅ Crédito en zona oscura, antes del botón -->
 <div class="footer-note">Desarrollado por Carlos Felipe Sepúlveda — 2026</div>
 
 <div class="footer"><button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button></div>
@@ -98,7 +111,10 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 const WEBHOOK="https://script.google.com/macros/s/AKfycbwqshmGClNRROBs3zCsDLQdVpLGdJiU8BT4ole0cxXT4qp-NQTAPCvIpMqG3EjaG_j7/exec";
 const KEY="seguimiento_pendientes";
 const EMOCIONES=["Bienestar","Desánimo","Frustración/Rabia","Motivación","Apatía"];
+
 let cache={},added=[],rolSaved=localStorage.getItem("doc_rol")||"";
+let FORZAR=false; // 🔥 Clave para actualización forzada
+
 const cursoSel=document.getElementById("curso");
 const rolInp=document.getElementById("rol");
 const btnSend=document.getElementById("btnSend");
@@ -110,15 +126,74 @@ const btnAdd=document.getElementById("btnAdd");
 const modal=document.getElementById("modal");
 const mSearch=document.getElementById("mSearch");
 const mList=document.getElementById("mList");
+const btnRefresh=document.getElementById("btnRefresh"); // ✅ Botón refresh
 
 function limpiarNombre(nombre){if(!nombre)return"";return decodeURIComponent(nombre.replace(/\+/g," ")).trim()}
-function bloquearCurso(bloquear){if(cursoSel)cursoSel.disabled=bloquear}
-function initCursos(){if(!cursoSel)return;const cursos=[];["PKA","PKB","PKC","KA","KB","KC"].forEach(c=>cursos.push(c));for(let i=1;i<=8;i++)["A","B","C"].forEach(l=>cursos.push(i+"°"+l));["I°","II°","III°","IV°"].forEach(r=>["A","B","C"].forEach(l=>cursos.push(r+l)));while(cursoSel.options.length>1)cursoSel.remove(1);cursos.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;cursoSel.appendChild(o)});if(rolSaved)rolInp.value=rolSaved;check();bloquearCurso(false)}
-document.addEventListener("DOMContentLoaded",initCursos);
-rolInp.addEventListener("input",e=>{e.target.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");rolSaved=e.target.value;localStorage.setItem("doc_rol",rolSaved);check()});
+function bloquearCurso(b){if(cursoSel)cursoSel.disabled=b}
 
-// ✅ JAVASCRIPT IDÉNTICO A TU VERSIÓN QUE FUNCIONA - NI UNA LÍNEA CAMBIADA
-cursoSel.addEventListener("change",async()=>{if(!cursoSel.value)return;toast("🔄 Cargando...","warn");btnAdd.disabled=true;try{if(!cache[cursoSel.value]){if(!navigator.onLine){const guardado=localStorage.getItem("lista_"+cursoSel.value);if(guardado){cache[cursoSel.value]=JSON.parse(guardado);btnAdd.disabled=false;toast("📴 Offline","warn");return}}const r=await fetch(WEBHOOK+"?action=getEstudiantes&curso="+encodeURIComponent(cursoSel.value));const d=await r.json();if(d.success&&d.estudiantes?.length){cache[cursoSel.value]=d.estudiantes.map(e=>({id:e.id,nombre:limpiarNombre(e.nombre)}));localStorage.setItem("lista_"+cursoSel.value,JSON.stringify(cache[cursoSel.value]))}else throw 1}btnAdd.disabled=false;toast("✅ Lista lista","ok")}catch{const guardado=localStorage.getItem("lista_"+cursoSel.value);if(guardado){cache[cursoSel.value]=JSON.parse(guardado);btnAdd.disabled=false;toast("⚠️ Guardada","warn");return}cache[cursoSel.value]=Array.from({length:30},(_,i)=>({id:i+1,nombre:"Estudiante "+(i+1)}));btnAdd.disabled=false;toast("⚠️ Modo offline","warn")}});
+function initCursos(){
+  if(!cursoSel)return;
+  const cursos=[];
+  ["PKA","PKB","PKC","KA","KB","KC"].forEach(c=>cursos.push(c));
+  for(let i=1;i<=8;i++)["A","B","C"].forEach(l=>cursos.push(i+"°"+l));
+  ["I°","II°","III°","IV°"].forEach(r=>["A","B","C"].forEach(l=>cursos.push(r+l)));
+  while(cursoSel.options.length>1)cursoSel.remove(1);
+  cursos.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;cursoSel.appendChild(o)});
+  if(rolSaved)rolInp.value=rolSaved;check();bloquearCurso(false)
+}
+document.addEventListener("DOMContentLoaded",initCursos);
+
+rolInp.addEventListener("input",e=>{
+  e.target.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");
+  rolSaved=e.target.value;localStorage.setItem("doc_rol",rolSaved);check()
+});
+
+// ✅ CARGA INTELIGENTE: Siempre intenta servidor primero + anti-cache Cloudflare
+cursoSel.addEventListener("change",async()=>{
+  if(!cursoSel.value)return;
+  toast("🔄 Cargando...","warn");
+  btnAdd.disabled=true;
+
+  try{
+    // 🔥 SIEMPRE intenta ONLINE primero (con anti-cache)
+    if(navigator.onLine){
+      const url=WEBHOOK+"?action=getEstudiantes&curso="+encodeURIComponent(cursoSel.value)+"&t="+Date.now();
+      const r=await fetch(url,{cache:"no-store"});
+      const d=await r.json();
+
+      if(d.success && d.estudiantes?.length){
+        const lista=d.estudiantes.map(e=>({id:e.id,nombre:limpiarNombre(e.nombre)}));
+        cache[cursoSel.value]=lista;
+        localStorage.setItem("lista_"+cursoSel.value,JSON.stringify(lista));
+        btnAdd.disabled=false;
+        toast(FORZAR?"🔄 Actualizado":"✅ Lista lista","ok");
+        FORZAR=false;
+        return;
+      }
+    }
+    throw 1;
+  }catch{
+    // 🔥 Fallback a caché local si fetch falla
+    const guardado=localStorage.getItem("lista_"+cursoSel.value);
+    if(guardado){
+      cache[cursoSel.value]=JSON.parse(guardado);
+      btnAdd.disabled=false;
+      toast("📴 Usando respaldo","warn");
+      return;
+    }
+    // Fallback extremo
+    cache[cursoSel.value]=Array.from({length:30},(_,i)=>({id:i+1,nombre:"Estudiante "+(i+1)}));
+    btnAdd.disabled=false;
+    toast("⚠️ Sin datos reales","warn");
+  }
+});
+
+// ✅ Botón 🔄 para forzar actualización
+btnRefresh.addEventListener("click",()=>{
+  if(!cursoSel.value){toast("Selecciona un curso primero","warn");return}
+  FORZAR=true;
+  cursoSel.dispatchEvent(new Event("change"));
+});
 
 btnAdd.addEventListener("click",()=>{if(!cache[cursoSel.value])return;mSearch.value="";renderModal(cache[cursoSel.value]);modal.classList.add("open")});
 function renderModal(list){const used=added.map(s=>s.id);mList.innerHTML=list.filter(s=>!used.includes(s.id)).map(s=>"<div class='opt' onclick='pick("+s.id+",\""+s.nombre.replace(/'/g,"\\'")+"\")'>"+s.id+" - "+s.nombre+"</div>").join("")||"<div style='text-align:center;padding:14px;color:var(--muted)'>Máximo 5 o todos agregados</div>"}
