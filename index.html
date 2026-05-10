@@ -59,6 +59,10 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 .btn-add{background:var(--add);color:#fff;border:none;padding:var(--sp-sm) 12px;border-radius:var(--sp-sm);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
 .btn-add:disabled{background:var(--btn-dis);opacity:0.5}
 .empty{text-align:center;color:var(--muted);font-size:10px;padding:var(--sp-md) 0}
+
+/* ✅ Crédito en zona oscura #0b1120, antes del botón */
+.footer-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.35);padding:6px 0 10px;background:var(--bg);flex-shrink:0;user-select:none;pointer-events:none}
+
 .footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;align-items:center;flex-shrink:0}
 .btn-send{width:100%;height:44px;font-size:var(--btn-size);font-weight:700;background:var(--btn);color:#fff;border:none;border-radius:var(--sp-lg);text-transform:uppercase;letter-spacing:0.5px}
 .btn-send:disabled{background:var(--btn-dis);color:#64748b}
@@ -79,6 +83,10 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 <div class="top-bar"><h1>BITÁCORA DE SEGUIMIENTO</h1></div>
 <div class="header"><select id="curso"><option value="">📚 Curso...</option></select><div class="rol-wrap"><input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text"><span class="rol-suffix">@educacionlc.cl</span></div></div>
 <div class="main"><div class="section"><div class="sec-title">👧🏻🧒🏻 Grupo</div><div class="grid-4"><div class="item"><label>1. Regulación</label><select id="g-reg"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>2. Buen trato</label><select id="g-tra"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>3. Trabajo en clases</label><select id="g-tar"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>4. Limpieza</label><select id="g-lim"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div></div><div class="section"><div class="stud-header"><span style="text-align:left;padding-left:2px">Nombre</span><span>Regulación</span><span>Trato</span><span>Trabajo en clases</span><span>Emoción pred.</span><span></span></div><div id="studList"></div><div class="stud-footer"><div class="sec-title" id="studCount">🎯 Estudiantes (0/5)</div><button class="btn-add" id="btnAdd" disabled>+ Agregar</button></div><div id="emptyMsg" class="empty">Toca + para añadir al seguimiento</div></div></div>
+
+<!-- ✅ Crédito en zona oscura, antes del botón -->
+<div class="footer-note">Desarrollado por Carlos Felipe Sepúlveda — 2026</div>
+
 <div class="footer"><button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button></div>
 <div id="toast"></div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm)"><span style="font-weight:600;font-size:var(--font-md)">Seleccionar estudiante</span><button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:20px;line-height:1;padding:4px">✕</button></div><input type="text" id="mSearch" placeholder="Buscar nombre o número..." style="margin-bottom:var(--sp-sm)"><div class="modal-list" id="mList"></div></div></div>
@@ -106,7 +114,7 @@ function initCursos(){if(!cursoSel)return;const cursos=[];["PKA","PKB","PKC","KA
 document.addEventListener("DOMContentLoaded",initCursos);
 rolInp.addEventListener("input",e=>{e.target.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9._-]/g,"");rolSaved=e.target.value;localStorage.setItem("doc_rol",rolSaved);check()});
 
-// ✅ CARGA DE CURSOS CORREGIDA: Siempre prioriza internet, fallback a caché
+// ✅ CORRECCIÓN MÍNIMA: Siempre intenta fetch primero, fallback a caché
 cursoSel.addEventListener("change",async()=>{
   if(!cursoSel.value)return;
   toast("🔄 Cargando...","warn");
@@ -115,7 +123,7 @@ cursoSel.addEventListener("change",async()=>{
   const clave="lista_"+cursoSel.value;
   
   try{
-    // 1. Intentar fetch SIEMPRE que sea posible
+    // 1. Intentar fetch SIEMPRE (prioridad internet)
     const r=await fetch(WEBHOOK+"?action=getEstudiantes&curso="+encodeURIComponent(cursoSel.value));
     const d=await r.json();
     
@@ -160,7 +168,7 @@ function check(){const g1=document.getElementById("g-reg").value,g2=document.get
 ["g-reg","g-tra","g-tar","g-lim"].forEach(id=>document.getElementById(id).onchange=check);
 btnSend.addEventListener("click",()=>{if(btnSend.disabled)return;const data={timestamp:new Date().toISOString(),curso:cursoSel.value,rol:rolInp.value.trim(),grupo:{reg:document.getElementById("g-reg").value,tra:document.getElementById("g-tra").value,tar:document.getElementById("g-tar").value,lim:document.getElementById("g-lim").value},estudiantes:added.map(s=>({id:s.id,nombre:s.nombre,reg:s.reg,tra:s.tra,tar:s.tar,emo:s.emo}))};let cola=JSON.parse(localStorage.getItem(KEY)||"[]");cola.push(data);localStorage.setItem(KEY,JSON.stringify(cola));toast("✅ Registrado. Se sincroniza en segundo plano","ok");setTimeout(reset,700);if(navigator.onLine)sincronizarEnSegundoPlano()});
 function reset(){["g-reg","g-tra","g-tar","g-lim"].forEach(id=>document.getElementById(id).value="");added=[];renderList();check();bloquearCurso(false)}
-async function sincronizarEnSegundoPlano(){let cola=JSON.parse(localStorage.getItem(KEY)||"[]");if(cola.length===0)return;const okIndices=[];for(let i=0;i<cola.length;i++){try{const res=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({data:JSON.stringify(cola[i])})});if(res.ok)okIndices.push(i)}catch{}}if(okIndices.length>0){cola=cola.filter((_,idx)=>!okIndices.includes(idx));localStorage.setItem(KEY,JSON.stringify(cola))}}
+async function sincronizarEnSegundoPlano(){let cola=JSON.parse(localStorage.getItem(KEY)||"[]");if(cola.length===0)return;const okIndices=[];for(let i=0;i<cola.length;i++){try{const res=await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({JSON.stringify(cola[i])})});if(res.ok)okIndices.push(i)}catch{}}if(okIndices.length>0){cola=cola.filter((_,idx)=>!okIndices.includes(idx));localStorage.setItem(KEY,JSON.stringify(cola))}}
 window.addEventListener("online",()=>{toast("🌐 Conexión restaurada. Sincronizando...","ok");sincronizarEnSegundoPlano()});
 if(navigator.onLine)sincronizarEnSegundoPlano();
 function toast(msg,cls){toastEl.textContent=msg;toastEl.className=cls?cls+" show":"show";setTimeout(()=>toastEl.className="",2000)}
