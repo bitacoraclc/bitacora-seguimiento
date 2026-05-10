@@ -24,7 +24,7 @@ html,body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);co
 select,input{width:100%;height:38px;padding:0 10px;background:var(--input);color:var(--txt);border:1px solid rgba(71,85,105,0.6);border-radius:var(--sp-md);font-size:var(--input-size);appearance:none;background-image:url("image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 select::-ms-expand{display:none}
 option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
-#curso{flex:0 0 28%;min-width:80px;font-size:12px;font-weight:700}
+#curso{flex:0 0 15%;min-width:80px;font-size:12px;font-weight:600}
 
 /* ✅ Botón 🔄 */
 .btn-refresh{background:#475569;border:none;border-radius:6px;color:#fff;font-size:14px;height:30px;width:30px;margin-left:2px;cursor:pointer;opacity:0.9;transition:opacity 0.2s}
@@ -83,7 +83,7 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 
 <!-- ✅ Header con botón 🔄 -->
 <div class="header">
-  <select id="curso"><option value="">📚 Curso...</option></select>
+  <select id="curso"><option value="">📚Curso</option></select>
   <button class="btn-refresh" id="btnRefresh" title="Actualizar lista">🔄</button>
   <div class="rol-wrap">
     <input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text">
