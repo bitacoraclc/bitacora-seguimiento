@@ -8,29 +8,24 @@
 <style>
 /* 🎛️ PANEL DE AJUSTES VISUALES - MODIFICA SOLO LOS NÚMEROS AQUÍ */
 :root {
-  /* 🔹 Tamaños de texto */
-  --titulo-size: 14px;        /* "BITÁCORA DE SEGUIMIENTO" */
-  --etiqueta-size: 12px;      /* "1. Regulación", "2. Buen trato", etc. */
-  --input-size: 14px;         /* Texto en desplegables y modal */
-  --nombre-size: 13px;        /* Nombre del estudiante en la lista */
-  --header-size: 11px;        /* Encabezados de la tabla de estudiantes */
-  --btn-size: 14px;           /* Botón "ENVIAR" */
-  --sec-title-size: 13px;     /* "👧🏻🧒🏻 Grupo" y "🎯 Estudiantes" */
-  
-  /* 🔹 Colores */
-  --bg: #0b1120;              /* Fondo general */
-  --panel: #1e293b;           /* Paneles y secciones */
-  --input: #334155;           /* Campos de entrada */
-  --btn: #3b82f6;             /* Botón principal (azul) */
-  --add: #10b981;             /* Botón "+ Agregar" (verde) */
-  --del: #f87171;             /* Botón eliminar (rojo) */
-  --txt: #e2e8f0;             /* Texto principal */
-  --muted: #94a3b8;           /* Texto secundario */
-  
-  /* 🔹 Espaciados (no modificar si no sabes CSS) */
+  --titulo-size: 14px;
+  --etiqueta-size: 12px;
+  --input-size: 14px;
+  --nombre-size: 13px;
+  --header-size: 11px;
+  --btn-size: 14px;
+  --sec-title-size: 13px;
+  --bg: #0b1120;
+  --panel: #1e293b;
+  --input: #334155;
+  --btn: #3b82f6;
+  --add: #10b981;
+  --del: #f87171;
+  --txt: #e2e8f0;
+  --muted: #94a3b8;
   --sp-xs: 3px; --sp-sm: 5px; --sp-md: 8px; --sp-lg: 13px; --sp-xl: 21px;
 }
-/* 🔽 FIN DEL PANEL - NO TOCAR LO DEMÁS SI NO SABES CSS */
+/* 🔽 FIN DEL PANEL */
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
@@ -61,9 +56,11 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 .btn-add{background:var(--add);color:#fff;border:none;padding:var(--sp-sm) 12px;border-radius:var(--sp-sm);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
 .btn-add:disabled{background:var(--btn-dis);opacity:0.5}
 .empty{text-align:center;color:var(--muted);font-size:10px;padding:var(--sp-md) 0}
-/* ✅ FOOTER ACTUALIZADO */
-.footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;flex-direction:column;align-items:center;gap:var(--sp-sm);flex-shrink:0}
-.footer-credit{font-size:10px;color:rgba(226,232,240,0.5);text-align:center;user-select:none;opacity:0.8}
+
+/* ✅ NUEVO: Crédito en fondo oscuro #0b1120, antes del botón */
+.footer-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.35);padding:6px 0 10px;background:var(--bg);flex-shrink:0;user-select:none;pointer-events:none}
+
+.footer{padding:var(--sp-sm) var(--sp-lg) var(--sp-md);background:var(--panel);border-top:1px solid rgba(71,85,105,0.5);display:flex;align-items:center;flex-shrink:0}
 .btn-send{width:100%;height:44px;font-size:var(--btn-size);font-weight:700;background:var(--btn);color:#fff;border:none;border-radius:var(--sp-lg);text-transform:uppercase;letter-spacing:0.5px}
 .btn-send:disabled{background:var(--btn-dis);color:#64748b}
 #toast{position:fixed;bottom:54px;left:12px;right:12px;background:rgba(15,23,42,0.95);color:var(--txt);text-align:center;padding:var(--sp-sm);border-radius:var(--sp-md);font-size:12px;transform:translateY(20px);opacity:0;transition:0.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
@@ -83,10 +80,11 @@ option{background:var(--panel);color:var(--txt);font-size:var(--input-size)}
 <div class="top-bar"><h1>BITÁCORA DE SEGUIMIENTO</h1></div>
 <div class="header"><select id="curso"><option value="">📚 Curso...</option></select><div class="rol-wrap"><input type="text" id="rol" placeholder="usuario" maxlength="30" inputmode="text"><span class="rol-suffix">@educacionlc.cl</span></div></div>
 <div class="main"><div class="section"><div class="sec-title">👧🏻🧒🏻 Grupo</div><div class="grid-4"><div class="item"><label>1. Regulación</label><select id="g-reg"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>2. Buen trato</label><select id="g-tra"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>3. Trabajo en clases</label><select id="g-tar"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="item"><label>4. Limpieza</label><select id="g-lim"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div></div><div class="section"><div class="stud-header"><span style="text-align:left;padding-left:2px">Nombre</span><span>Regulación</span><span>Trato</span><span>Trabajo en clases</span><span>Emoción pred.</span><span></span></div><div id="studList"></div><div class="stud-footer"><div class="sec-title" id="studCount">🎯 Estudiantes (0/5)</div><button class="btn-add" id="btnAdd" disabled>+ Agregar</button></div><div id="emptyMsg" class="empty">Toca + para añadir al seguimiento</div></div></div>
-<div class="footer">
-  <span class="footer-credit">Desarrollado por Carlos Felipe Sepúlveda — 2026</span>
-  <button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button>
-</div>
+
+<!-- ✅ Crédito en zona oscura #0b1120, antes del botón -->
+<div class="footer-note">Desarrollado por Carlos Felipe Sepúlveda — 2026</div>
+<div class="footer"><button class="btn-send" id="btnSend" disabled>📤 ENVIAR</button></div>
+
 <div id="toast"></div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-sm)"><span style="font-weight:600;font-size:var(--font-md)">Seleccionar estudiante</span><button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:20px;line-height:1;padding:4px">✕</button></div><input type="text" id="mSearch" placeholder="Buscar nombre o número..." style="margin-bottom:var(--sp-sm)"><div class="modal-list" id="mList"></div></div></div>
 
